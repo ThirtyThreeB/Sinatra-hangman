@@ -1,0 +1,4 @@
+--- !ruby/object:Game
+word: sample
+guesses_remaining: 10
+result_array: ______

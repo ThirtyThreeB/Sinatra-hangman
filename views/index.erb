@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Hangman</title>
+</head>
+<body>
+	<h2>Hangman.</h2>
+	
+	<p><%= @result_array %></p>
+	
+	<p><% if @last_guess %>
+			<%= "You guessed #{@last_guess}" %>
+			<% end %>
+		</p>
+	<p><% if @game_won %>
+			<%= "You win!!" %>
+			<% elsif @game_lost %>
+			<% "You're out of guesses, the word was #{@word}" %>
+			<% end %>
+		</p>
+
+
+	<p>You have <%= @guesses_remaining %> guesses left</p>
+
+	<form method="post" action="/">
+  	<input type="text" name="last_guess" placeholder="Guess a letter">
+  	<input type="submit" value="Guess!">
+  </form>
+  <!-- <form method="post" action="/save">
+  	<input type="text" name="game_name" placeholder="Save game as...">
+  	<input type="submit" value="Save">
+  </form>
+  <form method="post" action="/load">
+  	<button type="submit" name="load_game_button" value="load_game">Load Game</button>
+  </form> -->
+</body>
+</html>
