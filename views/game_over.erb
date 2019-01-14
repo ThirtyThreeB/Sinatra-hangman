@@ -4,7 +4,16 @@
 	<title>Game Over</title>
 </head>
 <body>
-	<p><%= @message %></p>
+<p><%= @game.inspect %></p>
+	
+		<p><% if @game.game_won %>
+			
+			<%= "The word is #{@game.word}. You win!!" %>
+			<% else %>
+			<%= "You're out of guesses, the word was #{@game.word}" %>
+			<% end %>
+		</p>
+
 	<form method="get" action="/home">
   	<button type="submit" value="play_again">Play Again?</button>
   </form>

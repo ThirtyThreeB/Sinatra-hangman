@@ -5,7 +5,7 @@ require 'yaml'
 enable :sessions                                                                                                                                                                              
                                                                                                                                                                                                   
 class Game                                                                                                                                                                                        
-  attr_accessor :word, :guesses_remaining, :result_array, :last_guess_good, :game_won, :game_lost                                                                                                                                                                             
+  attr_accessor :word, :guesses_remaining, :results, :last_guess_good, :game_won, :game_lost                                                                                                                                                                             
                                                                                                                                                                                                   
   def self.load                                                                                                                                                                                   
     if File.exists?('game.yml')                                                                                                                                                                    
@@ -16,10 +16,10 @@ class Game
   end                                                                                                                                                                                             
                                                                                                                                                                                                   
   def initialize(data = {}) #use data if passed, otherwise default is {}                                                                                                                                                                       
-    @word               = data[:word] || "sample"                                                                                                                                                          
-    @guesses_remaining  = data[:guesses_remaining] || 10
+    @word               = data[:word] || "sa"                                                                                                                                                          
+    @guesses_remaining  = data[:guesses_remaining] || 2
     @word_array         = word.chars.to_a
-    @result_array       = data[:result_array] || "_"*word.length
+    @results       = data[:results] || "_"*word.length
     @last_guess_good    = data[:last_guess_good] || true
     @game_lost          = false             
     @game_won           = false                                                                                                                       
@@ -33,18 +33,15 @@ class Game
 
   def decrement_guesses
     @guesses_remaining -= 1
-    # @guesses_remaining = guesses
-    p __method__
+p __method__
   end
 
   #returns true if the guess is included in the array
   def check_guess(player_guess)
 p __method__
     if !@word_array.include?(player_guess)
-p "NO MATCH"
       @last_guess_good = false
     else
-p "MATCH"
       @last_guess_good = true
       match_letters(player_guess)
     end
@@ -55,20 +52,21 @@ p "MATCH"
 p __method__
 
     indexes_matched = @word_array.each_index.select { |i| @word_array[i] == player_guess}
-    for x in indexes_matched do
-      @result_array[x] = player_guess
-    end
+      for x in indexes_matched do
+        @results[x] = player_guess
+      end
   end
 
   def check_win
 p __method__
-
-    if @guesses_remaining == 0
-      @game_lost = true
-p "GAMELOST"
-    elsif @word_array == @result_array
-      @game_won = true
+    
+  if @word_array.join == @results
+    @game_won = true
 p "GAMEWON"
+  elsif @guesses_remaining == 0
+    @game_lost = true
+p "GAMELOST"
+
     end
   end
 
@@ -93,47 +91,26 @@ get '/home' do
   get_game
   game = session[:game]
 
-p "#L124#{session[:game]}"
+  # game.check_win
 
-  game.check_win
-p "#L127#{session[:game]}"
 p session[:game]
 
   @game = game
-
-#   @word               = game.word
-# # p @word
-#   @guesses_remaining  = game.guesses_remaining
-# # p @guesses_remaining
-#   @result_array       = game.result_array
-# p @result_array
-  @last_guess         = params[:guess]
-
-p "YOU GOT GAME /home" if session[:game] 
-  
+ 
   erb :index
 end
 
 post '/' do
-   # Game.tester
   @last_guess = params[:last_guess]
-
   game = session[:game]
 
   game.check_guess(@last_guess)
-
   game.decrement_guesses
-
   game.check_win
 
-p " line 149 #{session[:game]}"
-
-p "GAME LOST???? = #{game.game_lost}"  ############# this isnt getting set
-p game.game_lost
-   if game.game_lost || game.game_lost
+   if game.game_lost || game.game_won
     redirect "/game_over" 
    else 
-p "L160ish"
     redirect "/home?guess=#{@last_guess}" 
   end
 end
@@ -143,7 +120,15 @@ post '/save' do
   redirect '/home'
 end
 
-# private
+get "/game_over" do
+  # get_game
+  game = session[:game]
+  @game = game
+  
+  erb :game_over
+end
+
+private
 
 def get_game
 p __method__
@@ -154,4 +139,5 @@ p "the if: session[:game] exists"
 p "the else: no game, Game.new"
     session[:game] = Game.new   
   end
+  # session[:game] = Game.new unless session[:game]
 end

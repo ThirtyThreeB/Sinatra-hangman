@@ -5,25 +5,13 @@
 </head>
 <body>
 	<h2>Hangman.</h2>
-
-<!-- 	# <p><%= @game.methods.inspect %></p>
- -->	
-	<p><%= @result_array %></p> <!-- this isn't passed, the whole game object is, but that doesn't work with last_guess_good, and game_won
-	ane I dont know why -->
-
-	<p><%= @game.result_array %></p>
+	
+	<p><%= @game.results %></p>
 
 	<p><% if !@game.last_guess_good %>
 			<%= "Try again, there is no #{@last_guess}" %>
 			<% end %>
 		</p>
-	<p><% if @game.game_won %>
-			<%= "You win!!" %>
-			<% elsif @game.game_lost %>
-			<% "You're out of guesses, the word was #{@word}" %>
-			<% end %>
-		</p>
-
 
 	<p>You have <%= @game.guesses_remaining %> guesses left</p>
 
