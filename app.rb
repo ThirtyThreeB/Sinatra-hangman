@@ -5,7 +5,7 @@ require 'yaml'
 enable :sessions                                                                                                                                                                              
                                                                                                                                                                                                   
 class Game                                                                                                                                                                                        
-  attr_accessor :word, :guesses_remaining, :results, :last_guess_good, :game_won, :game_lost                                                                                                                                                                             
+  attr_accessor :word, :guesses_remaining, :results, :last_guess_good, :game_won, :game_lost, :saved_game                                                                                                                                          
                                                                                                                                                                                                   
   def self.load                                                                                                                                                                                   
     if File.exists?('game.yml')                                                                                                                                                                    
@@ -22,13 +22,15 @@ class Game
     @results       = data[:results] || "_"*word.length
     @last_guess_good    = data[:last_guess_good] || true
     @game_lost          = false             
-    @game_won           = false                                                                                                                       
+    @game_won           = false 
+    @saved_game         = false                                                                                                                      
   end                                                                                                                                                                                                                  
                                                                                                                                                                                                   
-  def save                                                                                                                                                                                        
+  def save_game                                                                                                                                                                                       
     File.open('saved_game.yml', 'w') do |f|                                                                                                                                                       
       f.write self.to_yaml                                                                                                                                                                        
-    end                                                                                                                                                                                           
+    end
+    @saved_game = true                                                                                                                                                                                           
   end    
 
   def decrement_guesses
@@ -90,11 +92,7 @@ end
 get '/home' do
   get_game
   game = session[:game]
-
-  # game.check_win
-
 p session[:game]
-
   @game = game
  
   erb :index
@@ -116,13 +114,15 @@ post '/' do
 end
 
 post '/save' do
-  save_game(params[:game_name], session)
+  game  = session[:game]
+  @game = game
+  game.save_game
   redirect '/home'
 end
 
-get "/game_over" do
+get '/game_over' do
   # get_game
-  game = session[:game]
+  game  = session[:game]
   @game = game
   
   erb :game_over
@@ -132,12 +132,12 @@ private
 
 def get_game
 p __method__
-  if session[:game]
-p "the if: session[:game] exists"
-    session[:game]
-  else
-p "the else: no game, Game.new"
-    session[:game] = Game.new   
-  end
-  # session[:game] = Game.new unless session[:game]
+#   if session[:game]
+# p "the if: session[:game] exists"
+#     session[:game]
+#   else
+# p "the else: no game, Game.new"
+#     session[:game] = Game.new   
+#   end
+  session[:game] = Game.new unless session[:game]
 end

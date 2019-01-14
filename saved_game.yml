@@ -1,4 +1,11 @@
 --- !ruby/object:Game
-word: sample
-guesses_remaining: 10
-result_array: ______
+word: sa
+guesses_remaining: 2
+word_array:
+- s
+- a
+results: __
+last_guess_good: true
+game_lost: false
+game_won: false
+saved_game: false

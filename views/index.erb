@@ -9,22 +9,29 @@
 	<p><%= @game.results %></p>
 
 	<p><% if !@game.last_guess_good %>
-			<%= "Try again, there is no #{@last_guess}" %>
-			<% end %>
-		</p>
+		<%= "Try again, there is no #{@last_guess}" %>
+		<% end %>
+	</p>
 
 	<p>You have <%= @game.guesses_remaining %> guesses left</p>
 
 	<form method="post" action="/">
-  	<input type="text" name="last_guess" value = "s" placeholder="Guess a letter">
-  	<input type="submit" value="Guess!">
-  </form>
-  <!-- <form method="post" action="/save">
-  	<input type="text" name="game_name" placeholder="Save game as...">
-  	<input type="submit" value="Save">
-  </form>
-  <form method="post" action="/load">
-  	<button type="submit" name="load_game_button" value="load_game">Load Game</button>
-  </form> -->
+		<input type="text" name="last_guess" value = "s" placeholder="Guess a letter">
+		<input type="submit" value="Guess!">
+	</form>
+
+	<form method="post" action="/save">
+		<button type="submit" name="save_game_button">Save Game</button>
+	</form>
+
+	<form method="post" action="/load">
+		<button type="submit" name="load_game_button">Load Game</button>
+	</form>
+
+	<p><% if @game.saved_game %>
+		<%= "You have a saved game available" %>
+		<% end %>
+	</p>
+
 </body>
 </html>
