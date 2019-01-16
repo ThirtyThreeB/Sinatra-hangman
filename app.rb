@@ -3,23 +3,28 @@ require 'sinatra/reloader'
 require 'yaml' 
 require 'pry'     
 
-enable :sessions                                                                                                                                                                              
-                                                                                                                                                                                                  
+enable :sessions 
+
+                                                                                                                                                                             
+$dictionary = File.read('colors.txt').split(/\n/)
+                                                                                                                                                          
+                                                                                                                                                                                                
 class Game                                                                                                                                                                                        
   attr_accessor :word, :guesses_remaining, :results, :last_guess_good, :last_guess, :game_won, :game_lost, :saved_game                                                                                                                                          
                                                                                                                                                                                                   
                                                                                                                                                                                             
                                                                                                                                                                                                   
   def initialize(data = {}) #use data if passed, otherwise default is {}                                                                                                                                                                       
-    @word               = data[:word] || "samplero"                                                                                                                                                          
-    @guesses_remaining  = data[:guesses_remaining] || 10
+    @word               = data[:word] || $dictionary.sample.upcase                                                                                                                                                          
+    @guesses_remaining  = data[:guesses_remaining] || 2
+
     @word_array         = word.chars.to_a
     @results            = data[:results] || "_"*word.length
     @last_guess_good    = data[:last_guess_good] || true
     @game_lost          = false             
     @game_won           = false 
     @saved_game         = data[:saved_game] || false   
-    # @last_guess         = ''
+    @last_guess         = ''
     p "INITIALIZED"                                                                                                                   
   end                                                                                                                                                                                                                  
                                                                                                                                                                                                   
@@ -32,27 +37,9 @@ p __method__
     # game = Game.new                                                                                                                                                                                         
   end    
 
-#   def self.load 
-# p __method__                                                                                                                                                                                  
-#     if File.exists?('saved_game.yml') 
-# p "the if"    
-
-# p game
-
-#       # Game.new(YAML.load('saved_game.yml'))  #this is that data passed to initialize                                                                                                                                                           
-#       game = YAML::load(File.read('saved_game.yml'))
-#       session[:game] = game
-
-# p session[:game]
-#     else                                                                                                                                                                                          
-#       Game.new                                                                                                                                                                                    
-#     end                                                                                                                                                                                           
-#   end 
-
   def load_game
 p __method__
     data = YAML::load(File.read('saved_game.yml'))
-
   end
 
   def decrement_guesses
@@ -84,12 +71,12 @@ p __method__
   def check_win
 p __method__
     
-  if @word_array.join == @results
-    @game_won = true
-p "GAMEWON"
-  elsif @guesses_remaining == 0
-    @game_lost = true
-p "GAMELOST"
+    if @word_array.join == @results
+      @game_won = true
+  p "GAMEWON"
+    elsif @guesses_remaining == 0
+      @game_lost = true
+  p "GAMELOST"
 
     end
   end
@@ -104,6 +91,7 @@ end
  
 
 get '/home' do
+  p "HOT DIGGITY" if session[:game].nil?
   get_game
   @last_guess = params[:last_guess]
   @game = session[:game]
@@ -112,7 +100,7 @@ get '/home' do
 end
 
 post '/' do
-  @last_guess = params[:last_guess]
+  @last_guess = params[:last_guess].upcase
   game = session[:game]
 p game
   game.check_guess(@last_guess)
@@ -134,30 +122,41 @@ end
 
 post '/load' do
   game  = session[:game]
-  game = game.load_game
+  game = game.load_game  ###############fixit
   session[:game] = game
 
   redirect '/home'
 end
 
 get '/game_over' do
-  # get_game
-  game  = session[:game]
-  @game = game
-  
+
+  @game  = session[:game]
+  p session[:game]
   erb :game_over
+end
+
+get '/reset' do
+
+  session[:game] = nil
+
+  redirect '/home'
 end
 
 private
 
-def get_game
+def get_game(som ={})
 p __method__
 
-  session[:game] ||= Game.new # unless session[:game]  #memoization
+    session[:game] ||= Game.new # unless session[:game]  #memoization
 end
 
 #_____________________________
 
 #dictionary, set up the random word generator
+
+
+#shiny up the view
+
+# show only save or load?
 
 

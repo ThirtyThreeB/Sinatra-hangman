@@ -5,10 +5,10 @@
 </head>
 <body>
 	<h2>Hangman.</h2>
-	
+	<p><%= @game.word %></p>
 	<p><%= @game.results %></p>
 
-	<p><% if !@game.last_guess_good && !@last_guess.nil? %>
+	<p><% if !@game.last_guess_good  %>
 		<%= "Try again, there is no #{@last_guess}" %>
 		<% end %>
 	</p>
@@ -16,7 +16,7 @@
 	<p>You have <%= @game.guesses_remaining %> guesses left</p>
 
 	<form method="post" action="/">
-		<input type="text" name="last_guess" value = "s" placeholder="Guess a letter">
+		<input type="text" name="last_guess" placeholder="Guess a letter">
 		<input type="submit" value="Guess!">
 	</form>
 

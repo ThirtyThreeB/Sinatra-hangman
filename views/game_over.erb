@@ -4,7 +4,7 @@
 	<title>Game Over</title>
 </head>
 <body>
-<p><%= @game.inspect %></p>
+
 	
 		<p><% if @game.game_won %>
 			
@@ -14,7 +14,7 @@
 			<% end %>
 		</p>
 
-	<form method="get" action="/home">
+	<form method="get" action="/reset">
   	<button type="submit" value="play_again">Play Again?</button>
   </form>
 </body>
