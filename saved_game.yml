@@ -1,11 +1,17 @@
 --- !ruby/object:Game
-word: sa
-guesses_remaining: 2
+word: samplero
+guesses_remaining: 3
 word_array:
 - s
 - a
-results: __
-last_guess_good: true
+- m
+- p
+- l
+- e
+- r
+- o
+results: s_______
+last_guess_good: false
 game_lost: false
 game_won: false
-saved_game: false
+saved_game: true

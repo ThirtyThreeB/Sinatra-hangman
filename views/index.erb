@@ -8,7 +8,7 @@
 	
 	<p><%= @game.results %></p>
 
-	<p><% if !@game.last_guess_good %>
+	<p><% if !@game.last_guess_good && !@last_guess.nil? %>
 		<%= "Try again, there is no #{@last_guess}" %>
 		<% end %>
 	</p>
@@ -27,7 +27,7 @@
 	<form method="post" action="/load">
 		<button type="submit" name="load_game_button">Load Game</button>
 	</form>
-
+<% #binding.pry %>
 	<p><% if @game.saved_game %>
 		<%= "You have a saved game available" %>
 		<% end %>

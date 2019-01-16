@@ -1,37 +1,59 @@
 require 'sinatra'
 require 'sinatra/reloader'
-require 'yaml'      
+require 'yaml' 
+require 'pry'     
 
 enable :sessions                                                                                                                                                                              
                                                                                                                                                                                                   
 class Game                                                                                                                                                                                        
-  attr_accessor :word, :guesses_remaining, :results, :last_guess_good, :game_won, :game_lost, :saved_game                                                                                                                                          
+  attr_accessor :word, :guesses_remaining, :results, :last_guess_good, :last_guess, :game_won, :game_lost, :saved_game                                                                                                                                          
                                                                                                                                                                                                   
-  def self.load                                                                                                                                                                                   
-    if File.exists?('game.yml')                                                                                                                                                                    
-      Game.new(YAML.load('game.yml'))  #this is that data passed to initialize                                                                                                                                                           
-    else                                                                                                                                                                                          
-      Game.new                                                                                                                                                                                    
-    end                                                                                                                                                                                           
-  end                                                                                                                                                                                             
+                                                                                                                                                                                            
                                                                                                                                                                                                   
   def initialize(data = {}) #use data if passed, otherwise default is {}                                                                                                                                                                       
-    @word               = data[:word] || "sa"                                                                                                                                                          
-    @guesses_remaining  = data[:guesses_remaining] || 2
+    @word               = data[:word] || "samplero"                                                                                                                                                          
+    @guesses_remaining  = data[:guesses_remaining] || 10
     @word_array         = word.chars.to_a
-    @results       = data[:results] || "_"*word.length
+    @results            = data[:results] || "_"*word.length
     @last_guess_good    = data[:last_guess_good] || true
     @game_lost          = false             
     @game_won           = false 
-    @saved_game         = false                                                                                                                      
+    @saved_game         = data[:saved_game] || false   
+    # @last_guess         = ''
+    p "INITIALIZED"                                                                                                                   
   end                                                                                                                                                                                                                  
                                                                                                                                                                                                   
-  def save_game                                                                                                                                                                                       
+  def save_game 
+p __method__                                                                                                                                                                                      
     File.open('saved_game.yml', 'w') do |f|                                                                                                                                                       
       f.write self.to_yaml                                                                                                                                                                        
     end
-    @saved_game = true                                                                                                                                                                                           
+    @saved_game = true  
+    # game = Game.new                                                                                                                                                                                         
   end    
+
+#   def self.load 
+# p __method__                                                                                                                                                                                  
+#     if File.exists?('saved_game.yml') 
+# p "the if"    
+
+# p game
+
+#       # Game.new(YAML.load('saved_game.yml'))  #this is that data passed to initialize                                                                                                                                                           
+#       game = YAML::load(File.read('saved_game.yml'))
+#       session[:game] = game
+
+# p session[:game]
+#     else                                                                                                                                                                                          
+#       Game.new                                                                                                                                                                                    
+#     end                                                                                                                                                                                           
+#   end 
+
+  def load_game
+p __method__
+    data = YAML::load(File.read('saved_game.yml'))
+
+  end
 
   def decrement_guesses
     @guesses_remaining -= 1
@@ -79,29 +101,20 @@ p "GAMELOST"
                                                                                                                                                                                                   
 end                                                                                                                                                                                               
                                                                                                                                                                                                   
-                                                                                                                                                                                   
-# game.save                                                                                                                                                                                         
-                                                                                                                                                                                                  
-# game = Game.load                                                                                                                                                                                  
-                                                                                                                                                                                                  
-                                                                                                                                                                                                  
-# def home                                                                                                                                                                                          
-#   @game = Game.load                                                                                                                                                                               
-# end  
+ 
 
 get '/home' do
   get_game
-  game = session[:game]
-p session[:game]
-  @game = game
- 
+  @last_guess = params[:last_guess]
+  @game = session[:game]
+
   erb :index
 end
 
 post '/' do
   @last_guess = params[:last_guess]
   game = session[:game]
-
+p game
   game.check_guess(@last_guess)
   game.decrement_guesses
   game.check_win
@@ -109,14 +122,21 @@ post '/' do
    if game.game_lost || game.game_won
     redirect "/game_over" 
    else 
-    redirect "/home?guess=#{@last_guess}" 
+    redirect "/home?last_guess=#{@last_guess}" 
   end
 end
 
 post '/save' do
   game  = session[:game]
-  @game = game
   game.save_game
+  redirect '/home'
+end
+
+post '/load' do
+  game  = session[:game]
+  game = game.load_game
+  session[:game] = game
+
   redirect '/home'
 end
 
@@ -132,12 +152,12 @@ private
 
 def get_game
 p __method__
-#   if session[:game]
-# p "the if: session[:game] exists"
-#     session[:game]
-#   else
-# p "the else: no game, Game.new"
-#     session[:game] = Game.new   
-#   end
-  session[:game] = Game.new unless session[:game]
+
+  session[:game] ||= Game.new # unless session[:game]  #memoization
 end
+
+#_____________________________
+
+#dictionary, set up the random word generator
+
+
