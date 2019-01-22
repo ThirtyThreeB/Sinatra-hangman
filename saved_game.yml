@@ -1,14 +1,11 @@
 --- !ruby/object:Game
-word: ORANGE
+word: POT
 guesses_remaining: 2
 word_array:
+- P
 - O
-- R
-- A
-- N
-- G
-- E
-results: ______
+- T
+results: ___
 last_guess_good: true
 game_lost: false
 game_won: false

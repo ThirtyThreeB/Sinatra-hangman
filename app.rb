@@ -1,22 +1,22 @@
 require 'sinatra'
-require 'sinatra/reloader'
+require 'sinatra/reloader' if development?
 require 'yaml' 
-require 'pry'     
+require 'pry'  
+require 'open-uri'
 
 enable :sessions 
 
                                                                                                                                                                              
-$dictionary = File.read('colors.txt').split(/\n/)
-                                                                                                                                                          
+# $dictionary = File.read('colors.txt').split(/\n/)
+                
+$dictionary = open("https://www.scrapmaker.com/data/wordlists/basic/picturable.txt").read.split(/\n/)
                                                                                                                                                                                                 
 class Game                                                                                                                                                                                        
-  attr_accessor :word, :guesses_remaining, :results, :last_guess_good, :last_guess, :game_won, :game_lost, :saved_game                                                                                                                                          
-                                                                                                                                                                                                  
-                                                                                                                                                                                            
+  attr_accessor :word, :guesses_remaining, :results, :last_guess_good, :last_guess, :game_won, :game_lost, :saved_game                                                                                                                                                                               
                                                                                                                                                                                                   
   def initialize(data = {}) #use data if passed, otherwise default is {}                                                                                                                                                                       
     @word               = data[:word] || $dictionary.sample.upcase                                                                                                                                                          
-    @guesses_remaining  = data[:guesses_remaining] || 2
+    @guesses_remaining  = data[:guesses_remaining] || 10
 
     @word_array         = word.chars.to_a
     @results            = data[:results] || "_"*word.length
@@ -122,7 +122,7 @@ end
 
 post '/load' do
   game  = session[:game]
-  game = game.load_game  ###############fixit
+  game = game.load_game  ###############fixit, also this is where the saved game data gets written over the current game
   session[:game] = game
 
   redirect '/home'
@@ -152,11 +152,10 @@ end
 
 #_____________________________
 
-#dictionary, set up the random word generator
 
-
-#shiny up the view
-
+#css fix input panel
 # show only save or load?
+
+#figure out partial templates so other routes keep styling
 
 

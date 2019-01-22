@@ -1,0 +1,74 @@
+body {
+ background-image: url("https://avatars.mds.yandex.net/get-pdb/228251/beaff9a0-158a-40b1-9c25-40e6e2445896/s1200");
+ background-color: #cccccc;
+}
+
+.container {
+    font-family: 'East Sea Dokdo', cursive;
+    width:400px;
+    margin:10px auto 10px auto;
+    background-image: url(https://image.freepik.com/free-photo/abstract-green-dirty-chalkboard-for-background_35570-121.jpg);
+    background-color: #448573;
+    background-size: cover;
+    border: #2e1a12 solid 20px;
+    -webkit-border-image: url('http://pancaketheorem.com/stuff/demos/borderimage/wood.png') 200 stretch;
+    -moz-border-image: url('http://pancaketheorem.com/stuff/demos/borderimage/wood.png') 200 stretch;
+    border-image: url('http://pancaketheorem.com/stuff/demos/borderimage/wood.png') 200 stretch;
+    -webkit-box-shadow: inset 0px 0px 10px rgba(0,0,0,1), 5px 10px 18px #888888;
+}
+
+.controls {
+    font-family: 'East Sea Dokdo', cursive;
+    width:400px;
+    margin:40px auto 0px auto;
+    border: #2e1a12 solid 1px;
+    background-color: #cbcbcb;
+    opacity: 0.7;
+}
+
+.buttons {
+    margin:10px auto 10px auto;
+}
+
+h2 {
+    /*font-family: 'Nanum Pen Script', cursive;*/
+  /*  font-family: 'Crafty Girls', cursive;
+    font-family: 'East Sea Dokdo', cursive;*/
+    width:400px;
+    margin-bottom:12px;
+    text-align:center;
+    color:#f9fad0cc;
+    font-size:40px;
+    padding-bottom:8px;
+    /*opacity: 0.9;*/
+    /*border-bottom:2px solid #ff4b33;*/
+}
+
+p {
+    text-align:center;
+    font-size:30px;
+    color:#f9fad0cc;
+    /*opacity: 0.8;*/
+}
+
+form {
+    font-family: 'East Sea Dokdo', cursive;
+    text-align:center;
+    display:block;
+    width:400px;
+}
+
+input {
+    display:block;
+    float:left;
+    padding:8px;
+    font-family: 'East Sea Doko', cursive;
+    font-size:16px;
+}
+
+
+
+
+    /*font-family: 'Nanum Pen Script', cursive;
+    font-family: 'Crafty Girls', cursive;
+    font-family: 'East Sea Dokdo', cursive;*/

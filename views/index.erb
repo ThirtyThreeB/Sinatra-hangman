@@ -2,36 +2,50 @@
 <html>
 <head>
 	<title>Hangman</title>
+	<link href="https://fonts.googleapis.com/css?family=Crafty+Girls|East+Sea+Dokdo|Nanum+Pen+Script|Open+Sans" rel="stylesheet">
+	<link href="<%= url('/styles.css') %>" rel="stylesheet" type="text/css" />
 </head>
-<body>
-	<h2>Hangman.</h2>
-	<p><%= @game.word %></p>
-	<p><%= @game.results %></p>
 
-	<p><% if !@game.last_guess_good  %>
-		<%= "Try again, there is no #{@last_guess}" %>
-		<% end %>
-	</p>
+	<body>
+		<div class = "container">
+			<h2>Hangman.</h2>
+<!-- 			<p><%= @game.word %></p> -->
+			<p><%= @game.results %></p>
 
-	<p>You have <%= @game.guesses_remaining %> guesses left</p>
+			<p><% if !@game.last_guess_good  %>
+				<%= "Try again, there is no #{@last_guess}" %>
+				<% else %>
+				<%= "." %>
+				<% end %>
+			</p>
 
-	<form method="post" action="/">
-		<input type="text" name="last_guess" placeholder="Guess a letter">
-		<input type="submit" value="Guess!">
-	</form>
+			<p>You have <%= @game.guesses_remaining %> guesses left</p>
+		</div>
+		
+		<div class="controls">
+			<div class="buttons">
+				<form method="post" action="/">
+				<input type="text" name="last_guess" placeholder="Guess a letter">
+				<input type="submit" value="Guess!">
+				</form>
+			</div>
 
-	<form method="post" action="/save">
-		<button type="submit" name="save_game_button">Save Game</button>
-	</form>
+			<div class="buttons">
+				<form method="post" action="/save">
+					<button type="submit" name="save_game_button">Save Game</button>
+				</form>
 
-	<form method="post" action="/load">
-		<button type="submit" name="load_game_button">Load Game</button>
-	</form>
-<% #binding.pry %>
-	<p><% if @game.saved_game %>
-		<%= "You have a saved game available" %>
-		<% end %>
-	</p>
+				<form method="post" action="/load">
+					<button type="submit" name="load_game_button">Load Game</button>
+				</form>
+			</div>
+		</div>
 
-</body>
+		<% #binding.pry %>
+		<p><% if @game.saved_game %>
+			<%= "You have a saved game available" %>
+			<% end %>
+		</p>
+
+	</body>
 </html>
