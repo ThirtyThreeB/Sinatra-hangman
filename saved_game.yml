@@ -1,12 +1,15 @@
 --- !ruby/object:Game
-word: BEE
-guesses_remaining: 8
+word: CAMERA
+guesses_remaining: 2
 word_array:
-- B
+- C
+- A
+- M
 - E
-- E
-results: ___
-last_guess_good: false
+- R
+- A
+results: ______
+last_guess_good: true
 game_lost: false
 game_won: false
 saved_game: false

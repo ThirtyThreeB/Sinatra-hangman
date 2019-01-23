@@ -130,6 +130,7 @@ body {
 
 input[type=text] {
     width: 80px;
+    color: black;
     background-color: white;
     float:left;
 }
@@ -144,10 +145,10 @@ h2 {
   /*  font-family: 'Crafty Girls', cursive;
     font-family: 'East Sea Dokdo', cursive;*/
     width:400px;
-    margin-bottom:12px;
+    margin:12px 0;
     text-align:center;
     color:#f9fad0cc;
-    font-size:40px;
+    font-size:55px;
     padding-bottom:8px;
     /*opacity: 0.9;*/
     /*border-bottom:2px solid #ff4b33;*/

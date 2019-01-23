@@ -1,0 +1,16 @@
+<h2>Hangman</h2>
+		<!-- 			<p><%= @game.word %></p> -->
+		<p><%= @game.results %></p>
+
+		<p><% if !@game.last_guess_good  %>
+			<%= "Try again, there is no #{@last_guess}" %>
+
+			<% end %>
+		</p>
+
+		<p>You have <%= @game.guesses_remaining %> guesses left
+		</p>
+		<p><% if @game.saved_game %>
+			<%= "You have a saved game available" %>
+			<% end %>
+		</p>

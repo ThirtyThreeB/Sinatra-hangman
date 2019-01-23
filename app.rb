@@ -96,7 +96,7 @@ get '/home' do
   @last_guess = params[:last_guess]
   @game = session[:game]
 
-  erb :index
+  erb :game_layout
 end
 
 post '/' do
@@ -132,7 +132,7 @@ get '/game_over' do
 
   @game  = session[:game]
   p session[:game]
-  erb :game_over
+  erb :game_over, {:layout => :game_layout}
 end
 
 get '/reset' do
@@ -153,9 +153,5 @@ end
 #_____________________________
 
 
-#css fix input panel, WHY do I have extra margin before the input field???
-
-
-#figure out partial templates so other routes keep styling
 
 
