@@ -1,12 +1,12 @@
 --- !ruby/object:Game
-word: POT
-guesses_remaining: 2
+word: BEE
+guesses_remaining: 8
 word_array:
-- P
-- O
-- T
+- B
+- E
+- E
 results: ___
-last_guess_good: true
+last_guess_good: false
 game_lost: false
 game_won: false
 saved_game: false
