@@ -90,7 +90,7 @@ end
                                                                                                                                                                                                   
  
 
-get '/home' do
+get '/' do
   p "HOT DIGGITY" if session[:game].nil?
   get_game
   @last_guess = params[:last_guess]
@@ -110,14 +110,14 @@ p game
    if game.game_lost || game.game_won
     redirect "/game_over" 
    else 
-    redirect "/home?last_guess=#{@last_guess}" 
+    redirect "/?last_guess=#{@last_guess}" 
   end
 end
 
 post '/save' do
   game  = session[:game]
   game.save_game
-  redirect '/home'
+  redirect '/'
 end
 
 post '/load' do
@@ -125,7 +125,7 @@ post '/load' do
   game = game.load_game  ###############fixit, also this is where the saved game data gets written over the current game
   session[:game] = game
 
-  redirect '/home'
+  redirect '/'
 end
 
 get '/game_over' do
@@ -139,7 +139,7 @@ get '/reset' do
 
   session[:game] = nil
 
-  redirect '/home'
+  redirect '/'
 end
 
 private
