@@ -1,7 +1,7 @@
 require 'sinatra'
 require 'sinatra/reloader' if development?
 require 'yaml' 
-require 'pry'  
+require 'pry' if development? 
 require 'open-uri'
 
 enable :sessions 
